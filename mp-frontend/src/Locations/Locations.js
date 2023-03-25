@@ -5,6 +5,7 @@ import Location from "./Location";
 import React, { useEffect, useState } from "react";
 import LocationDelete from "./LocationDelete";
 import { ClipLoader } from "react-spinners";
+import axios from "axios";
 
 function Locations() {
   const [loading, setLoading] = useState(true);
@@ -23,29 +24,15 @@ function Locations() {
   const [showModalDelete, setShowModalDelete] = useState(false);
 
   useEffect(() => {
-    const dataRequest = () => {
-      setData([
-        {
-          locationId: 1,
-          locationName: "Guatemala",
-          locationDescription:
-            "Lorem Ipsum is simply dummy text of the printing and type setting industry.",
-          locationPhone: "2410-2541",
-          locationAddress: "Guatemala Zona 1",
-        },
-        {
-          locationId: 2,
-          locationName: "Guatemala 2",
-          locationDescription:
-            "Lorem Ipsum is simply dummy text of the printing and type setting industry.",
-          locationPhone: "2410-2541",
-          locationAddress: "Guatemala Zona 2",
-        },
-      ]);
-      setLoading(false);
-    };
-
-    setTimeout(dataRequest, 2000);
+    axios
+      .get("http://localhost:8080/api/locations")
+      .then((response) => {
+        setData(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const handleShow = (id, row) => {
