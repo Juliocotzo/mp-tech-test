@@ -17,7 +17,24 @@ function Location(props) {
     };
     axios
       .post("http://localhost:8080/api/locations", data)
-      .then((response) => {
+      .then(() => {
+        props.handleAccept();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const editLocation = () => {
+    const data = {
+      locationName,
+      locationDescription,
+      locationPhone,
+      locationAddress,
+    };
+    axios
+      .put(`http://localhost:8080/api/locations/${props.id}`, data)
+      .then(() => {
         props.handleAccept();
       })
       .catch((error) => {
@@ -94,7 +111,7 @@ function Location(props) {
             Cerrar
           </Button>
           {props.id ? (
-            <Button variant="primary" onClick={() => addLocation()}>
+            <Button variant="primary" onClick={() => editLocation()}>
               Editar
             </Button>
           ) : (
