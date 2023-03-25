@@ -46,4 +46,14 @@ public class LocationController {
         }
     }
     
+    @PostMapping("/locations")
+    public ResponseEntity<Location> createLocation(@RequestBody Location location) {
+        try {
+            Location _location = locationRepository
+                    .save(new Location(location.getLocationName(),location.getLocationDescription(),location.getLocationPhone(), location.getLocationAddress()));
+            return new ResponseEntity<>(_location, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
