@@ -34,4 +34,16 @@ public class LocationController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/locations/{id}")
+    public ResponseEntity<Location> getLocationById(@PathVariable("id") long id) {
+        Optional<Location> location = locationRepository.findById(id);
+
+        if (location.isPresent()) {
+            return new ResponseEntity<>(location.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    
 }
