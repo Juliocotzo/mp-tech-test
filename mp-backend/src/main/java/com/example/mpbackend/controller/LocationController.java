@@ -45,15 +45,31 @@ public class LocationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    
+
     @PostMapping("/locations")
     public ResponseEntity<Location> createLocation(@RequestBody Location location) {
         try {
             Location _location = locationRepository
-                    .save(new Location(location.getLocationName(),location.getLocationDescription(),location.getLocationPhone(), location.getLocationAddress()));
+                    .save(new Location(location.getLocationName(), location.getLocationDescription(), location.getLocationPhone(), location.getLocationAddress()));
             return new ResponseEntity<>(_location, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/locations/{id}")
+    public ResponseEntity<Location> updateLocation(@PathVariable("id") long id, @RequestBody Location location) {
+        Optional<Location> locationData = locationRepository.findById(id);
+
+        if (locationData.isPresent()) {
+            Location _location = locationData.get();
+            _location.setLocationName(location.getLocationName());
+            _location.setLocationDescription(location.getLocationDescription());
+            _location.setLocationPhone(location.getLocationPhone());
+            _location.setLocationAddress(location.getLocationAddress());
+            return new ResponseEntity<>(locationRepository.save(_location), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

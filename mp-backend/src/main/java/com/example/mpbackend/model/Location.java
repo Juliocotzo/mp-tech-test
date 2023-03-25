@@ -43,17 +43,32 @@ public class Location {
         return locationName;
     }
 
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
     public String getLocationDescription() {
         return locationDescription;
+    }
+
+    public void setLocationDescription(String locationDescription) {
+        this.locationDescription = locationDescription;
     }
 
     public String getLocationPhone() {
         return locationPhone;
     }
 
+    public void setLocationPhone(String locationPhone) {
+        this.locationPhone = locationPhone;
+    }
+
     public String getLocationAddress() {
         return locationAddress;
     }
 
+    public void setLocationAddress(String locationAddress) {
+        this.locationAddress = locationAddress;
+    }
 
 }
