@@ -1,5 +1,6 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Location(props) {
   const [locationName, setLocationName] = useState("");
@@ -7,10 +8,30 @@ function Location(props) {
   const [locationPhone, setLocationPhone] = useState("");
   const [locationAddress, setLocationAddress] = useState("");
 
+  const addLocation = () => {
+    const data = {
+      locationName,
+      locationDescription,
+      locationPhone,
+      locationAddress,
+    };
+    axios
+      .post("http://localhost:8080/api/locations", data)
+      .then((response) => {
+        props.handleAccept();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     if (props.id) {
+      const locationDescription = props.row.locationDescription
+        ? props.row.locationDescription
+        : "";
       setLocationName(props.row.locationName);
-      setLocationDescription(props.row.locationDescription);
+      setLocationDescription(locationDescription);
       setLocationPhone(props.row.locationPhone);
       setLocationAddress(props.row.locationAddress);
     }
@@ -72,9 +93,15 @@ function Location(props) {
           <Button variant="secondary" onClick={props.handleClose}>
             Cerrar
           </Button>
-          <Button variant="primary" onClick={props.handleClose}>
-            {props.id ? "Editar" : "Agregar"}
-          </Button>
+          {props.id ? (
+            <Button variant="primary" onClick={() => addLocation()}>
+              Editar
+            </Button>
+          ) : (
+            <Button variant="primary" onClick={() => addLocation()}>
+              Agregar
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </div>

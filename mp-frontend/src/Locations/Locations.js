@@ -23,7 +23,8 @@ function Locations() {
   const [modalDelete, setModalDelete] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
 
-  useEffect(() => {
+  const getLocations = () => {
+    setLoading(true);
     axios
       .get("http://localhost:8080/api/locations")
       .then((response) => {
@@ -33,6 +34,10 @@ function Locations() {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  useEffect(() => {
+    getLocations();
   }, []);
 
   const handleShow = (id, row) => {
@@ -46,6 +51,14 @@ function Locations() {
     setModal(false);
     setId(null);
     setRow({});
+  };
+
+  const handleAccept = () => {
+    setShow(false);
+    setModal(false);
+    setId(null);
+    setRow({});
+    getLocations();
   };
 
   const handleShowModalDelete = (id) => {
@@ -127,6 +140,7 @@ function Locations() {
         <Location
           show={show}
           handleClose={handleClose}
+          handleAccept={handleAccept}
           id={id}
           row={row}
         ></Location>
