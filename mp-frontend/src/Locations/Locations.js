@@ -72,6 +72,13 @@ function Locations() {
     setId(null);
   };
 
+  const handleAcceptModalDelete = () => {
+    setShowModalDelete(false);
+    setModalDelete(false);
+    setId(null);
+    getLocations();
+  };
+
   return (
     <div>
       <h1 className="text-start">Fiscalias </h1>
@@ -149,6 +156,7 @@ function Locations() {
         <LocationDelete
           show={showModalDelete}
           handleClose={handleCloseModalDelete}
+          handleAccept={handleAcceptModalDelete}
           id={id}
         ></LocationDelete>
       ) : null}

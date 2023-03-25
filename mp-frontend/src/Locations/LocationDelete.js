@@ -1,7 +1,19 @@
 import { Button, Modal } from "react-bootstrap";
 import { FaExclamationTriangle } from "react-icons/fa";
+import axios from "axios";
 
 function LocationDelete(props) {
+  const acceptDelete = () => {
+    axios
+      .delete(`http://localhost:8080/api/locations/${props.id}`)
+      .then(() => {
+        props.handleAccept();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
       <Modal
@@ -22,7 +34,7 @@ function LocationDelete(props) {
           <Button variant="secondary" onClick={props.handleClose}>
             Cerrar
           </Button>
-          <Button variant="primary" onClick={props.handleClose}>
+          <Button variant="primary" onClick={() => acceptDelete()}>
             {" "}
             Aceptar
           </Button>
